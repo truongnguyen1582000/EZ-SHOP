@@ -59,7 +59,7 @@ export default function Header() {
   const loggedInUser = useSelector((state) => state.user.current);
   const isLoggedIn = !!loggedInUser.id;
   const fullName = loggedInUser.fullName;
-  const displayName = fullName?.split("")[1];
+  const displayName = fullName?.split("")[0];
   const [anchorEl, setAnchorEl] = useState(null); // assign target to know where pop up menu
   const dispatch = useDispatch();
 
@@ -87,7 +87,10 @@ export default function Header() {
           {!isLoggedIn ? (
             <Box>
               <Button
-                onClick={() => setOpen(!open)}
+                onClick={() => {
+                  setOpen(!open);
+                  setMode("login");
+                }}
                 color="inherit"
                 className={classes.btn}
               >

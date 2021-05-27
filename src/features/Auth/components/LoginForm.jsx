@@ -36,10 +36,7 @@ function LoginForm({ onSubmit }) {
   const classes = useStyles();
 
   const schema = yup.object().shape({
-    identifier: yup
-      .string()
-      .required("Please enter your email.")
-      .email("Please enter an valid email address."),
+    identifier: yup.string().required("Please enter your email or user name."),
     password: yup.string().required("Please enter your password."),
   });
 
@@ -68,7 +65,7 @@ function LoginForm({ onSubmit }) {
       </Typography>
       <InputField
         name="identifier"
-        label="Email"
+        label="Email or User name"
         placeholder="Enter your full name"
         form={form}
       />

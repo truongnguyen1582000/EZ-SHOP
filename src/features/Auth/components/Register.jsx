@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { register } from "../userSlice";
 import RegisterForm from "./RegisterForm";
 
-function Register({ hanleClose }) {
+function Register({ handleClose }) {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -16,7 +16,7 @@ function Register({ hanleClose }) {
       const newUser = unwrapResult(resultAction);
       console.log("new user: ", newUser);
       enqueueSnackbar("Register succcess, Logged-in !", { variant: "success" });
-      hanleClose();
+      handleClose();
     } catch (error) {
       console.log(error);
     }
