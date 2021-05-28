@@ -1,0 +1,1 @@
+npm i @hookform/error-message @hookform/resolvers @material-ui/core @material-ui/icons @material-ui/lab @reduxjs/toolkit axios classnames notistack query-string react-hook-form react-image-magnify react-redux react-router-dom yup

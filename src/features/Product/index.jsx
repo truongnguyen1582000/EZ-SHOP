@@ -12,7 +12,7 @@ function ProductFeature(props) {
     enqueueSnackbar("Wellcome to EZ-STORE ~ . ~ let's shop now !!!", {
       variant: "info",
     });
-  }, []);
+  }, [enqueueSnackbar]);
 
   return (
     <div>

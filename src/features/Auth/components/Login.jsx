@@ -19,7 +19,7 @@ function Login({ handleClose }) {
       }, 500);
       handleClose();
     } catch (error) {
-      console.log(error);
+      enqueueSnackbar(error.message, { variant: "error" });
     }
   };
   return (
