@@ -98,10 +98,8 @@ export default function Header() {
               </Button>
             </Box>
           ) : (
-            <IconButton>
-              <Avatar onClick={(e) => setAnchorEl(e.currentTarget)}>
-                {displayName}
-              </Avatar>
+            <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+              <Avatar>{displayName}</Avatar>
             </IconButton>
           )}
         </Toolbar>

@@ -18,7 +18,7 @@ function Register({ handleClose }) {
       enqueueSnackbar("Register succcess, Logged-in !", { variant: "success" });
       handleClose();
     } catch (error) {
-      console.log(error);
+      enqueueSnackbar(error.message, { variant: "error" });
     }
   };
   return (
