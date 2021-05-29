@@ -13,6 +13,7 @@ function Product({ product }) {
   const thumbnailUrl = product.thumbnail
     ? `${STATIC_HOST}${product.thumbnail.url}`
     : `${PLACEHOLDER_IMG}`;
+
   return (
     <Box padding={1}>
       <Box>

@@ -2,7 +2,15 @@ import { TextField } from "@material-ui/core";
 import React from "react";
 import { Controller } from "react-hook-form";
 
-function InputField({ name, label, form, placeholder = "", disabled = false }) {
+function InputField({
+  name,
+  label,
+  form,
+  placeholder = "",
+  variant = "outlined",
+  type = "text",
+  disabled = false,
+}) {
   return (
     <Controller
       name={name}
@@ -21,7 +29,8 @@ function InputField({ name, label, form, placeholder = "", disabled = false }) {
           helperText={error?.message}
           disabled={disabled}
           fullWidth
-          variant="outlined"
+          type={type}
+          variant={variant}
           placeholder={`${placeholder}...`}
           margin="normal"
         />
