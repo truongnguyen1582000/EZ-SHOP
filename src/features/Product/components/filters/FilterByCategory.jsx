@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Box, makeStyles, Typography } from "@material-ui/core";
 import { categoryApi } from "api/categoryApi";
+import CategorySkeleton from "./CategorySkeleton";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
   listItem: {
-    listStyle: "none",
-
     "&:hover": {
       cursor: "pointer",
       color: theme.palette.primary.main,
@@ -20,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 function FilterByCategory({ onChange }) {
   const classes = useStyles();
   const [categoryList, setCategoryList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchCategory = async () => {
       try {
@@ -29,6 +29,7 @@ function FilterByCategory({ onChange }) {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     };
     fetchCategory();
   }, []);
@@ -42,17 +43,21 @@ function FilterByCategory({ onChange }) {
       <Typography variant="body1" color="initial">
         Danh mục sản phẩm
       </Typography>
-      <Box variant="ul" className={classes.list}>
-        {categoryList.map((category) => (
-          <li
-            key={category.id}
-            onClick={() => handleCategoryClick(category.id)}
-            className={classes.listItem}
-          >
-            {category.name}
-          </li>
-        ))}
-      </Box>
+      <ul className={classes.list}>
+        {isLoading ? (
+          <CategorySkeleton length={6} />
+        ) : (
+          categoryList.map((category) => (
+            <li
+              key={category.id}
+              onClick={() => handleCategoryClick(category.id)}
+              className={classes.listItem}
+            >
+              {category.name}
+            </li>
+          ))
+        )}
+      </ul>
     </Box>
   );
 }

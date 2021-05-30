@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     marginTop: theme.spacing(1),
   },
+  input: {},
 }));
 
 function FilterByPrice({ onChange }) {
@@ -55,6 +56,7 @@ function FilterByPrice({ onChange }) {
 
   const handleFormSubmit = (value) => {
     onChange(value);
+    form.reset();
   };
 
   return (
@@ -65,6 +67,7 @@ function FilterByPrice({ onChange }) {
       <form onSubmit={form.handleSubmit(handleFormSubmit)}>
         <Box className={classes.wrapperInput}>
           <InputField
+            className={classes.input}
             name="salePrice_gte"
             label="Từ"
             form={form}
@@ -73,6 +76,7 @@ function FilterByPrice({ onChange }) {
           />
           <span>-</span>
           <InputField
+            className={classes.input}
             name="salePrice_lte"
             label="Đến"
             form={form}

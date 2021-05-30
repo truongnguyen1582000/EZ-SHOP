@@ -2,6 +2,7 @@ import { Box, Container, Grid, makeStyles, Paper } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import { productApi } from "api/productApi";
 import React, { useEffect, useState } from "react";
+import FilterViewer from "../components/FilterViewer";
 import ProductFilter from "../components/ProductFilter";
 import ProductList from "../components/ProductList";
 import ProductSkeletonList from "../components/ProductSkeletonList";
@@ -35,6 +36,8 @@ function ListPage(props) {
     _limit: 12,
     _page: 1,
     _sort: "salePrice:ASC",
+    isFreeShip: false,
+    isPromotion: false,
   });
 
   useEffect(() => {
@@ -42,6 +45,7 @@ function ListPage(props) {
       try {
         const { data, pagination } = await productApi.getAll(filters);
         setProductList(data);
+        console.log(data);
         setPagination(pagination);
       } catch (error) {
         console.log(error);
@@ -72,6 +76,12 @@ function ListPage(props) {
     });
   };
 
+  const handleFWChange = (newFilters) => {
+    setFilters({
+      ...newFilters,
+    });
+  };
+
   return (
     <Container className={classes.root}>
       <Grid container spacing={1}>
@@ -85,6 +95,7 @@ function ListPage(props) {
         <Grid item className={classes.right}>
           <Paper elevation={1}>
             <ProductSort value={filters._sort} onChange={handleSortChange} />
+            <FilterViewer filters={filters} onChange={handleFWChange} />
             {isLoading ? (
               <ProductSkeletonList length={filters._limit} />
             ) : (
