@@ -1,6 +1,6 @@
 import { Box, Chip, makeStyles } from "@material-ui/core";
 import { categoryApi } from "api/categoryApi";
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +70,10 @@ const FILTER_LIST = [
 function FilterViewer({ filters = {}, onChange }) {
   const classes = useStyles();
   const [value, setvalue] = useState("");
-  console.log(filters);
+
+  const visibleFilters = useMemo(() => {
+    return FILTER_LIST.filter((x) => x.isVisible(filters));
+  }, [filters]);
 
   (async () => {
     try {
@@ -85,7 +88,7 @@ function FilterViewer({ filters = {}, onChange }) {
 
   return (
     <Box component="ul" className={classes.root}>
-      {FILTER_LIST.filter((x) => x.isVisible(filters)).map((x) => (
+      {visibleFilters.map((x) => (
         <li key={x.id}>
           <Chip
             className={classes.chip}

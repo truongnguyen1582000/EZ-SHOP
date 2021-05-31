@@ -1,12 +1,15 @@
 import { Box, Container, Grid, makeStyles, Paper } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import { productApi } from "api/productApi";
-import React, { useEffect, useState } from "react";
+import queryString from "query-string";
+import React, { useEffect, useMemo, useState } from "react";
+import { useHistory, useLocation } from "react-router";
 import FilterViewer from "../components/FilterViewer";
 import ProductFilter from "../components/ProductFilter";
 import ProductList from "../components/ProductList";
 import ProductSkeletonList from "../components/ProductSkeletonList";
 import ProductSort from "../components/ProductSort";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(2),
@@ -32,18 +35,27 @@ function ListPage(props) {
     limit: 1,
     total: 1,
   });
-  const [filters, setFilters] = useState({
-    _limit: 12,
-    _page: 1,
-    _sort: "salePrice:ASC",
-    isFreeShip: false,
-    isPromotion: false,
-  });
+
+  const location = useLocation();
+  const history = useHistory();
+
+  const queryParams = useMemo(() => {
+    const params = queryString.parse(location.search);
+
+    return {
+      ...params,
+      _limit: parseInt(params._limit) || 12,
+      _page: parseInt(params._page) || 1,
+      _sort: params._sort || "salePrice:ASC",
+      isPromotion: params.isPromotion === "true",
+      isFreeShip: params.isFreeShip === "true",
+    };
+  }, [location.search]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data, pagination } = await productApi.getAll(filters);
+        const { data, pagination } = await productApi.getAll(queryParams);
         setProductList(data);
         console.log(data);
         setPagination(pagination);
@@ -53,32 +65,44 @@ function ListPage(props) {
       setIsLoading(false);
     };
     fetchProducts();
-  }, [filters]);
+  }, [queryParams]);
 
   const handlePaginationChange = (e, newPage) => {
-    setFilters({
-      ...filters,
-      _page: newPage,
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify({
+        ...queryParams,
+        _page: newPage,
+      }),
     });
   };
 
   const handleSortChange = (newVal) => {
-    setFilters({
-      ...filters,
-      _sort: newVal,
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify({
+        ...queryParams,
+        _sort: newVal,
+      }),
     });
   };
 
   const handleFiltersChange = (newFilters) => {
-    setFilters({
-      ...filters,
-      ...newFilters,
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify({
+        ...queryParams,
+        ...newFilters,
+      }),
     });
   };
 
   const handleFWChange = (newFilters) => {
-    setFilters({
-      ...newFilters,
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify({
+        ...newFilters,
+      }),
     });
   };
 
@@ -88,16 +112,22 @@ function ListPage(props) {
         <Grid item className={classes.left}>
           <Paper elevation={1}>
             <Box padding={1}>
-              <ProductFilter filters={filters} onChange={handleFiltersChange} />
+              <ProductFilter
+                filters={queryParams}
+                onChange={handleFiltersChange}
+              />
             </Box>
           </Paper>
         </Grid>
         <Grid item className={classes.right}>
           <Paper elevation={1}>
-            <ProductSort value={filters._sort} onChange={handleSortChange} />
-            <FilterViewer filters={filters} onChange={handleFWChange} />
+            <ProductSort
+              value={queryParams._sort}
+              onChange={handleSortChange}
+            />
+            <FilterViewer filters={queryParams} onChange={handleFWChange} />
             {isLoading ? (
-              <ProductSkeletonList length={filters._limit} />
+              <ProductSkeletonList length={queryParams._limit} />
             ) : (
               <ProductList productList={productList} />
             )}
