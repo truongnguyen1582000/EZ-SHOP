@@ -29,18 +29,18 @@ export const productApi = {
   },
   get(id) {
     const url = `/products/${id}`;
-    axiosClient.get(url);
+    return axiosClient.get(url);
   },
   add(data) {
     const url = "/products";
-    axiosClient.post(url, data);
+    return axiosClient.post(url, data);
   },
   update(data) {
     const url = `/products/${data.id}`;
-    axiosClient.patch(url, data);
+    return axiosClient.patch(url, data);
   },
   remove(id) {
     const url = `/products/${id}`;
-    axiosClient.delete(url);
+    return axiosClient.delete(url);
   },
 };
