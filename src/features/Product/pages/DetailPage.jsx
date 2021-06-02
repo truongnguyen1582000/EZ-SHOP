@@ -1,9 +1,21 @@
-import { Box, Container, Grid, makeStyles, Paper } from "@material-ui/core";
+import {
+  Box,
+  Container,
+  Grid,
+  LinearProgress,
+  makeStyles,
+  Paper,
+} from "@material-ui/core";
 import React from "react";
-import { useRouteMatch } from "react-router";
+import { Route, Switch, useRouteMatch } from "react-router";
+import AddToCartForm from "../components/AddToCartForm";
+import ProdductMenu from "../components/ProductMenu";
 import ProductInfo from "../components/ProductInfo";
 import ProductThumbnail from "../components/ProductThumbnail";
 import useProductDetail from "../hooks/useProductDetail";
+import ProductDesc from "../components/ProductDesc";
+import ProductAdditional from "../components/ProductAdditional";
+import ProductReview from "../components/ProductReview";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,12 +39,16 @@ const useStyles = makeStyles((theme) => ({
 
 function DetailPage() {
   const classes = useStyles();
-  const match = useRouteMatch();
+  const { url, params } = useRouteMatch();
 
-  const { loading, product } = useProductDetail(match.params.productId);
+  const { loading, product } = useProductDetail(params.productId);
+
+  const handleAddToCartSubmit = () => {};
+
+  console.log(product);
 
   if (loading) {
-    return <Box>Loading</Box>;
+    return <LinearProgress />;
   }
 
   return (
@@ -44,9 +60,22 @@ function DetailPage() {
           </Grid>
           <Grid item className={classes.right}>
             <ProductInfo product={product} />
+            <AddToCartForm onSubmit={handleAddToCartSubmit} />
           </Grid>
         </Grid>
       </Paper>
+      <ProdductMenu />
+      <Switch>
+        <Route path={url} exact>
+          <ProductDesc product={product} />
+        </Route>
+        <Route path={`${url}/additional`} exact>
+          <ProductAdditional product={product} />
+        </Route>
+        <Route path={`${url}/reviews`} exact>
+          <ProductReview product={product} />
+        </Route>
+      </Switch>
     </Container>
   );
 }

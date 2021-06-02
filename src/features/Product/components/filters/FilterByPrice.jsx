@@ -32,18 +32,13 @@ function FilterByPrice({ onChange }) {
   const classes = useStyles();
 
   const schema = yup.object().shape({
-    salePrice_gte: yup
-      .string()
-      .required("*")
-      .test("", "*", (value) => {
-        return parseInt(value) >= 0;
-      }),
+    salePrice_gte: yup.number().typeError("Price must be a number."),
     salePrice_lte: yup
-      .string()
-      .required("*")
+      .number()
       .test("", "*", (value) => {
-        return parseInt(value) > 0;
-      }),
+        return parseInt(value) > 1000;
+      })
+      .typeError("Price must be a number."),
   });
 
   const form = useForm({

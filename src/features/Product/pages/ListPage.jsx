@@ -106,6 +106,8 @@ function ListPage(props) {
     });
   };
 
+  console.log(productList);
+
   return (
     <Container className={classes.root}>
       <Grid container spacing={1}>

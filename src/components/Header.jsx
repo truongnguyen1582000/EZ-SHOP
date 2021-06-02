@@ -14,7 +14,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close";
 import Register from "features/Auth/components/Register";
 import Login from "features/Auth/components/Login";
