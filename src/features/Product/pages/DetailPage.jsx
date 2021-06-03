@@ -16,6 +16,8 @@ import useProductDetail from "../hooks/useProductDetail";
 import ProductDesc from "../components/ProductDesc";
 import ProductAdditional from "../components/ProductAdditional";
 import ProductReview from "../components/ProductReview";
+import { useDispatch } from "react-redux";
+import { addToCart } from "features/Cart/cartSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,10 +42,19 @@ const useStyles = makeStyles((theme) => ({
 function DetailPage() {
   const classes = useStyles();
   const { url, params } = useRouteMatch();
+  const dispatch = useDispatch();
 
   const { loading, product } = useProductDetail(params.productId);
 
-  const handleAddToCartSubmit = () => {};
+  const handleAddToCartSubmit = ({ quantity }) => {
+    const selectedItem = {
+      id: product.id,
+      product,
+      quantity,
+    };
+    console.log(selectedItem);
+    dispatch(addToCart(selectedItem));
+  };
 
   console.log(product);
 

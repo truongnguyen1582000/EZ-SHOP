@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 function QuantifyField({
   name,
-  label,
+  label = "",
   form,
   placeholder = "",
   disabled = false,

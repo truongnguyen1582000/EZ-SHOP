@@ -2,8 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Button } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import QuantifyField from "components/form-control/QuantityField";
+import { useHistory } from "react-router";
+import { useSnackbar } from "notistack";
 
 const schema = yup.object().shape({
   quantity: yup
@@ -14,6 +16,7 @@ const schema = yup.object().shape({
 });
 
 function AddToCartForm({ onSubmit }) {
+  const { enqueueSnackbar } = useSnackbar();
   const form = useForm({
     defaultValues: {
       quantity: 1,
@@ -22,21 +25,37 @@ function AddToCartForm({ onSubmit }) {
   });
 
   const handleSubmit = (value) => {
-    console.log(value);
+    onSubmit(value);
+    enqueueSnackbar("Add to cart success !", { variant: "success" });
+  };
+
+  const history = useHistory();
+
+  const handleBuyNowClick = () => {
+    setTimeout(() => {
+      history.push("/cart");
+    }, 600);
   };
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <QuantifyField name="quantity" label="Quantity" form={form} />
 
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        fullWidth
-        size="large"
-      >
-        BUY
+      <Box marginRight="16px" display="inline">
+        <Button
+          type="submit"
+          onClick={() => {
+            handleBuyNowClick();
+          }}
+          variant="contained"
+          color="primary"
+          size="large"
+        >
+          BUY NOW
+        </Button>
+      </Box>
+      <Button type="submit" variant="contained" color="primary" size="large">
+        ADD TO CARt
       </Button>
     </form>
   );

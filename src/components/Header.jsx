@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Box,
   Dialog,
   DialogActions,
@@ -12,14 +13,16 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close";
-import Register from "features/Auth/components/Register";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Login from "features/Auth/components/Login";
-import { useDispatch, useSelector } from "react-redux";
+import Register from "features/Auth/components/Register";
 import { logout } from "features/Auth/userSlice";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { cartListCountSlector } from "../features/Cart/selector";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,11 +65,18 @@ export default function Header() {
   const displayName = fullName?.split("")[0];
   const [anchorEl, setAnchorEl] = useState(null); // assign target to know where pop up menu
   const dispatch = useDispatch();
+  const cartCounter = useSelector(cartListCountSlector);
 
   const handleLogout = () => {
     const action = logout();
     dispatch(action);
     setAnchorEl(null);
+  };
+
+  const history = useHistory();
+
+  const handleIconClick = () => {
+    history.push("/cart");
   };
 
   return (
@@ -84,6 +94,15 @@ export default function Header() {
               Let's Shop
             </Button>
           </Link>
+          <IconButton
+            onClick={handleIconClick}
+            aria-label="show number item in cart"
+            color="inherit"
+          >
+            <Badge badgeContent={cartCounter} color="secondary">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
           {!isLoggedIn ? (
             <Box>
               <Button
