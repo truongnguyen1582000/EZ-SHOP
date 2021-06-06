@@ -93,6 +93,7 @@ function ListPage(props) {
       search: queryString.stringify({
         ...queryParams,
         ...newFilters,
+        _page: 1,
       }),
     });
   };

@@ -45,7 +45,9 @@ function AddToCartForm({ onSubmit }) {
         <Button
           type="submit"
           onClick={() => {
-            handleBuyNowClick();
+            if (!form.formState.errors.quantity?.message) {
+              handleBuyNowClick();
+            }
           }}
           variant="contained"
           color="primary"

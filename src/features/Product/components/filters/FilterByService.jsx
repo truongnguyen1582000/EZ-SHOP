@@ -20,6 +20,7 @@ function FilterByService({ filters, onChange }) {
   const handleChange = (e) => {
     onChange({
       [e.target.name]: e.target.checked,
+      _page: 1,
     });
   };
 

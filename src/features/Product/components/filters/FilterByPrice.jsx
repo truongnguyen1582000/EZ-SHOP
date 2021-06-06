@@ -32,7 +32,12 @@ function FilterByPrice({ onChange }) {
   const classes = useStyles();
 
   const schema = yup.object().shape({
-    salePrice_gte: yup.number().typeError("Price must be a number."),
+    salePrice_gte: yup
+      .number()
+      .typeError("Price must be a number.")
+      .test("", "*", (value) => {
+        return parseInt(value) > 0;
+      }),
     salePrice_lte: yup
       .number()
       .test("", "*", (value) => {
@@ -66,7 +71,7 @@ function FilterByPrice({ onChange }) {
             name="salePrice_gte"
             label="Từ"
             form={form}
-            type="number"
+            type="tel"
             variant="standard"
           />
           <span>-</span>
@@ -75,7 +80,7 @@ function FilterByPrice({ onChange }) {
             name="salePrice_lte"
             label="Đến"
             form={form}
-            type="number"
+            type="tel"
             variant="standard"
           />
         </Box>

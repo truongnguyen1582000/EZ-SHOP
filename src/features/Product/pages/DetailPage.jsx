@@ -1,23 +1,22 @@
 import {
-  Box,
   Container,
   Grid,
   LinearProgress,
   makeStyles,
   Paper,
 } from "@material-ui/core";
+import { addToCart } from "features/Cart/cartSlice";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router";
 import AddToCartForm from "../components/AddToCartForm";
-import ProdductMenu from "../components/ProductMenu";
+import ProductAdditional from "../components/ProductAdditional";
+import ProductDesc from "../components/ProductDesc";
 import ProductInfo from "../components/ProductInfo";
+import ProdductMenu from "../components/ProductMenu";
+import ProductReview from "../components/ProductReview";
 import ProductThumbnail from "../components/ProductThumbnail";
 import useProductDetail from "../hooks/useProductDetail";
-import ProductDesc from "../components/ProductDesc";
-import ProductAdditional from "../components/ProductAdditional";
-import ProductReview from "../components/ProductReview";
-import { useDispatch } from "react-redux";
-import { addToCart } from "features/Cart/cartSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +51,7 @@ function DetailPage() {
       product,
       quantity,
     };
-    console.log(selectedItem);
+
     dispatch(addToCart(selectedItem));
   };
 

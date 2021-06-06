@@ -1,6 +1,6 @@
 import NotFound from "components/NotFound";
 import CartFeature from "features/Cart";
-import { Route, Switch } from "react-router";
+import { Redirect, Route, Switch } from "react-router";
 import "./App.css";
 import Header from "./components/Header";
 import Home from "./features/Home";
@@ -11,6 +11,7 @@ function App() {
     <div className="App">
       <Header />
       <Switch>
+        <Redirect from="/" to="/products" exact />
         <Route path="/" component={Home} exact />
         <Route path="/products" component={ProductFeature} />
         <Route path="/cart" component={CartFeature} />

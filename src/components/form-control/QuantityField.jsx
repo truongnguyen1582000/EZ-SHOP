@@ -19,8 +19,10 @@ const useStyles = makeStyles((theme) => ({
   },
   field: {
     display: "flex",
+    flexDirection: "row",
     alignItems: "center",
-    maxWidth: "180px",
+    justifyContent: "center",
+    width: "140px",
   },
 }));
 
@@ -29,11 +31,17 @@ function QuantifyField({
   label = "",
   form,
   placeholder = "",
+  fullWidth = true,
   disabled = false,
 }) {
   const classes = useStyles();
   return (
-    <FormControl fullWidth margin="normal" variant="outlined" size="small">
+    <FormControl
+      fullWidth={fullWidth}
+      margin="normal"
+      variant="outlined"
+      size="small"
+    >
       <Typography className={classes.label}>{label}</Typography>
       <Controller
         name={name}
@@ -54,12 +62,13 @@ function QuantifyField({
               <OutlinedInput
                 id={name}
                 placeholder={`${placeholder}...`}
-                type="number"
+                type="tel"
                 value={value}
                 onChange={onChange}
                 onBlur={onBlur}
               />
               <IconButton
+                onChange={onChange}
                 onClick={() =>
                   form.setValue(name, parseInt(value) ? parseInt(value) + 1 : 1)
                 }
